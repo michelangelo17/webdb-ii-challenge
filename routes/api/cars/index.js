@@ -5,6 +5,7 @@ const { valCarsPost } = require('../../middleware')
 
 module.exports = router
 
+// Gets either whole array or if sent with VIN in body,
 router.get('/', async (req, res, next) => {
   try {
     res.json(

@@ -1,11 +1,13 @@
-// const valAccountsPost = (req, res, next) =>
-//   JSON.stringify(req.body) !== '{}'
-//     ? req.body.name
-//       ? req.body.budget
-//         ? next()
-//         : res.status(400).json({ message: 'Missing required budget field' })
-//       : res.status(400).json({ message: 'Missing required name field' })
-//     : res.status(400).json({ message: 'Missing account data' })
+const valCarsPost = (req, res, next) =>
+  JSON.stringify(req.body) !== '{}'
+    ? req.body.make
+      ? req.body.model
+        ? req.body.mileage
+          ? next()
+          : res.status(400).json({ message: 'Missing required mileage field' })
+        : res.status(400).json({ message: 'Missing required model field' })
+      : res.status(400).json({ message: 'Missing required make field' })
+    : res.status(400).json({ message: 'Missing car data' })
 
 const valId = (db, table) => async (req, res, next) =>
   (await db(table)
@@ -25,4 +27,4 @@ const valId = (db, table) => async (req, res, next) =>
 //         .status(400)
 //         .json({ message: 'Must contain one of or both fields: name, budget' })
 
-module.exports = { valId }
+module.exports = { valId, valCarsPost }

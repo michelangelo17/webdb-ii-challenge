@@ -1,19 +1,25 @@
 const db = require('../../../data/db')
 const router = require('express').Router()
 const uuid = require('uuid')
-const { valId } = require('../../middleware')
+const { valCarsPost } = require('../../middleware')
 
 module.exports = router
 
 router.get('/', async (req, res, next) => {
   try {
-    res.json(await db('cars'))
+    res.json(
+      await db('cars').modify(
+        qb => req.body.VIN && qb.where('VIN', req.body.VIN)
+      )
+    )
   } catch (e) {
     next(e)
   }
 })
 
-router.post('/', async (req, res, next) => {
+// Since we're just making dummy posts, set up automatic uuid
+// creation if one isn't provided.
+router.post('/', valCarsPost, async (req, res, next) => {
   try {
     const dataRes = await db('cars').insert(
       { ...req.body, VIN: req.body.VIN || uuid() },
